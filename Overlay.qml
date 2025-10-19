@@ -2,7 +2,8 @@ import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Wayland
 import QtQuick
-import QtQuick.Effects
+// import QtQuick.Effects
+import Quickshell.Io
 
 Scope {
     Variants {
@@ -10,6 +11,7 @@ Scope {
         PanelWindow {
             id: panel
 
+            WlrLayershell.layer: WlrLayer.Overlay
             implicitHeight: screen.height
             implicitWidth: screen.width
 
@@ -33,8 +35,9 @@ Scope {
             property var modelData
             screen: modelData
 
-            visible: modelData.name == "eDP-1"
+            // visible: modelData.name == "eDP-1"
 
+            //TODO: move to singleton
             property var expanded: false
             property var active: gap.height != 0
 
