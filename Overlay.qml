@@ -45,6 +45,7 @@ Scope {
             onToggleChanged: {
                 if (toggle) {
                     expandDelay.start()
+                    bar.update = true;
                 } else {
                     closeDelay.start()
                     panel.delayedExpand = panel.toggle
@@ -55,7 +56,7 @@ Scope {
                 id: gap
                 anchors.centerIn: parent
                 width: parent.width
-                height: panel.delayedExpand ? 52 : 0 // 52 because it happened to play nice with my pixel alignment
+                height: panel.delayedExpand ? 52 : 0
  
                 Behavior on height {
                     NumberAnimation {
@@ -70,6 +71,7 @@ Scope {
                 }
 
                 color: "#2a2b36"
+                // color: "#1e222a"
                 // color: "white"
                 Rectangle {
                     anchors.fill: parent
@@ -96,7 +98,7 @@ Scope {
 
             IpcHandler {
                 target: "panel"
-                function expand(): void {
+                function toggle(): void {
                     panel.copyVisible = true
                     panel.toggle = !panel.toggle
                 }
@@ -104,7 +106,7 @@ Scope {
 
             Timer {
                 id: closeDelay
-                interval: 200
+                interval: 200 // TODO: remove this random delay
                 repeat: false
                 onTriggered: {
                     panel.copyVisible = false
@@ -112,7 +114,7 @@ Scope {
             }
             Timer {
                 id: expandDelay
-                interval: 40 //screenshot depends on currently running things... :(
+                interval: 40 // allow time for screenshot to complete
                 repeat: false
                 onTriggered: {
                     panel.delayedExpand = panel.toggle
@@ -137,6 +139,7 @@ Scope {
 
                     live: false
                     captureSource: !panel.copyVisible ? null : panel.modelData
+                    // captureSource: null
                     constraintSize.width: panel.screen.width
                     constraintSize.height: panel.screen.height
                 }
@@ -158,6 +161,7 @@ Scope {
 
                     live: false
                     captureSource: !panel.copyVisible? null: panel.modelData
+                    // captureSource: null
                     constraintSize.width: panel.screen.width
                     constraintSize.height: panel.screen.height
                 }
